@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WELCOME</title>
+    <style>
+        body::before {
+            content: "";
+            background: url('https://ir.ozone.ru/s3/multimedia-d/c1000/6430237561.jpg') no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            width: 300px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .form-container input {
+            margin-bottom: 10px;
+        }
+
+        .gradient-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="form-container">
+        <form method="POST" action="/login">
+            <p class="h2 fw-bold">Please sign in</p>
+
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" placeholder="login" name="j_login">
+                <label for="floatingInput">login</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="password" name="j_password">
+                <label for="floatingPassword">password</label>
+            </div>
+
+            <button type="submit" class="gradient-btn btn btn-lg">Sign in</button>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

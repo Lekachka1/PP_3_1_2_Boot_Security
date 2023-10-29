@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .form-container {
+            width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-container label {
+            color: #333;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .form-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-container input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .form-container input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .form-container .error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .form-container select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            height: 100px;
+        }
+
+        .form-container option {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h2>Edit User</h2>
+    <form th:method="PATCH" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}">
+        <label for="firstName">Name:</label>
+        <input type="text" th:field="*{firstName}" id="firstName"/>
+        <div class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Name is not correct</div>
+        <label for="lastName">Surname:</label>
+        <input type="text" th:field="*{lastName}" id="lastName"/>
+        <div class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Surname is not correct</div>
+        <label for="email">Email:</label>
+        <input type="text" th:field="*{email}" id="email"/>
+        <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email is not correct</div>
+        <label for="login">Login:</label>
+        <input type="text" th:field="*{login}" id="login"/>
+        <div class="error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Login is not correct</div>
+        <label for="password">Password:</label>
+        <input type="text" th:field="*{password}" id="password"/>
+        <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password is not correct</div>
+        <br>
+        <label for="roles"><b>Role</b></label>
+        <select multiple class="form-control form-control-sm" id="roles" name="roles" size="2" required>
+            <option th:each="role: ${roles}" th:value="${role.userRole}" th:selected="${user.roles.contains(role)}">
+                <th:block th:text="${role.userRole}"></th:block>
+            </option>
+        </select>
+        <br><br>
+        <input type="submit" value="Edit User"/>
+    </form>
+</div>
+</body>
+</html>

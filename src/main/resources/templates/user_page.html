@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title> USER </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 10px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+
+<body>
+<section>
+    <div>
+        <h1>ABOUT USER</h1>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Login</th>
+                <th>Role</th>
+            </tr>
+            <tr th:each="user : ${user}">
+                <td th:text="${user.getId()}">id</td>
+                <td th:text="${user.getFirstName()}">name</td>
+                <td th:text="${user.getLastName()}">surname</td>
+                <td th:text="${user.getEmail()}">email</td>
+                <td th:text="${user.getLogin()}">login</td>
+                <td th:text="${user.getRoles()}">roles</td>
+            </tr>
+        </table>
+    </div>
+</section>
+<form th:action="@{/logout}" method="post">
+    <button type="submit" class="btn btn-dark text-secondary">Logout</button>
+</form>
+</body>
+
+</html>
+
