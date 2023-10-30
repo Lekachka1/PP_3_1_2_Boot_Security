@@ -156,11 +156,7 @@ public class User implements UserDetails {
 
     @Override
     public int hashCode() {
-        int hash = 17;
-
-        hash = 31 * hash + (firstName == null ? 0 : firstName.hashCode());
-        hash = 31 * hash + (login == null ? 0 : login.hashCode());
-        hash = (int) (31 * hash + id);
-        return hash;
+        return Objects.hash(id, login);
     }
+
 }

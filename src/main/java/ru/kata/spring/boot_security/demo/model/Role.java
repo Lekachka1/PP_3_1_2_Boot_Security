@@ -70,12 +70,10 @@ public class Role implements GrantedAuthority {
         return Objects.equals(id, role.id);
     }
 
+
     @Override
     public int hashCode() {
-        int hash = 17;
-
-        hash = 31 * hash + (userRole == null ? 0 : userRole.hashCode());
-        hash = (int) (31 * hash + id);
-        return hash;
+        return Objects.hash(id, userRole);
     }
+
 }
