@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
-
 @Repository
 public class UserDaoImpl implements UserDao {
 
@@ -17,35 +16,32 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        return entityManager.createQuery("select u from User u", User.class).getResultList();
+        return entityManager.createQuery("from User", User.class).getResultList();
     }
 
     @Override
     public User getUserByLogin(String login) {
-        return entityManager.createQuery("select u from User u where u.login =: login", User.class)
+        return entityManager.createQuery("select u from User u where u.login = :login", User.class)
                 .setParameter("login", login).getSingleResult();
     }
+
     @Override
-    public User getUserById(long id) {
+    public User getUserById(Long id) {
         return entityManager.find(User.class, id);
     }
+
     @Override
-    @Transactional
     public void addUser(User user) {
         entityManager.persist(user);
     }
 
     @Override
-    @Transactional
     public void updateUser(User user) {
         entityManager.merge(user);
     }
 
     @Override
-    @Transactional
-    public void deleteUser(long id) {
+    public void deleteUser(Long id) {
         entityManager.remove(entityManager.find(User.class, id));
     }
-
-
 }

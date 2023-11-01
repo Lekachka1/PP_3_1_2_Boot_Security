@@ -35,19 +35,19 @@ public class Base {
         allRoles.add(roleService.getRoleById(1L));
         allRoles.add(roleService.getRoleById(2L));
 
-        userService.addUser(new User("Martin", "Scorsese",  "scorseseMartin@gmail.com",
+        userService.addUser(new User("Scorsese", 80,  "scorseseMartin@gmail.com",
                 "user", "admin", userRole));
-        userService.addUser(new User("Stanley ", "Kubrick",  "Stan1928@rambler.ru",
-                "admin", "user", adminRole));
-        userService.addUser(new User(" Sam", "Mendes",  "menDes007@mail.ru",
+        userService.addUser(new User("Kubrick", 70, "Stan1928@rambler.ru","admin"
+                , "user", adminRole));
+        userService.addUser(new User( "Mendes", 58, "menDes007@mail.ru",
                 "good", "bubby", userRole));
-        userService.addUser(new User("Christopher", "Nolan",  "oscar@gmail.com",
+        userService.addUser(new User( "Nolan", 53, "oscar@gmail.com",
                 "TYhk12", "liberty", allRoles));
-        userService.addUser(new User("Quentin", "Tarantino",  "western@yandex.ru",
+        userService.addUser(new User( "Tarantino",  60,"western@yandex.ru",
                 "candy", "halcyon", userRole));
-        userService.addUser(new User("Joel", "Coen",  "fargoTheBest@mail.ru",
+        userService.addUser(new User( "Coen",  68,"fargoTheBest@mail.ru",
                 "123456", "hiHello", allRoles));
-        userService.addUser(new User("Martin", "McDonagh",  "martin53@gmail.com",
+        userService.addUser(new User( "McDonagh", 53, "martin53@gmail.com",
                 "england", "damask", adminRole));
     }
 }

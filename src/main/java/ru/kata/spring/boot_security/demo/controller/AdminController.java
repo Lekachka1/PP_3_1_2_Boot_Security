@@ -14,6 +14,7 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,22 +22,49 @@ import java.util.Set;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-
     private final UserService userService;
     private final RoleService roleService;
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService) {
-        this.userService = userService;
+    public AdminController (UserService userService, RoleService roleService) {
         this.roleService = roleService;
+        this.userService = userService;
     }
 
-    @GetMapping(value = "/")
-    public String getAdminPage(@AuthenticationPrincipal User user, Model model) {
+    @GetMapping("/")
+    public String showAllUsers(@AuthenticationPrincipal User user, Role role, Model model) {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("user", user);
+        model.addAttribute("new_user", new User());
         model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("role", role);
         return "admin_page";
+    }
+
+    @GetMapping("/new")
+    public String newUser(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("roles", roleService.getAllRoles());
+        return "/add_user";
+    }
+
+    @PostMapping("/new")
+    public String create(@ModelAttribute("user") User user) {
+        System.out.println("Добавление");
+        userService.addUser(user);
+        return "redirect:/admin/";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editUser(Model model, @PathVariable("id") long id) {
+        model.addAttribute("user", userService.getUserById(id));
+        return "/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("user") User user) {
+        userService.updateUser(user);
+        return "redirect:/admin/";
     }
 
     @DeleteMapping("/{id}")
@@ -47,57 +75,6 @@ public class AdminController {
         }
         userService.deleteUser(id);
         return "redirect:/admin/";
-    }
-
-    @GetMapping("/{id}/edit")
-    public String editUser(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.getUserById(id));
-        model.addAttribute("roles",roleService.getAllRoles());
-        return "edit";
-    }
-
-    @PatchMapping("/{id}")
-    public String updateUser(@PathVariable("id") Long id, @ModelAttribute("user") @Valid User user,@RequestParam(value = "roles") List<String> selectResult, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "edit";
-        } else {
-            Set<Role> selectedRoles = new HashSet<>();
-            for (String roleName : selectResult) {
-                selectedRoles.add(roleService.getRole(roleName));
-            }
-            user.setRoles(selectedRoles);
-            User originalUser = userService.getUserById(id);
-            originalUser.setFirstName(user.getFirstName());
-            originalUser.setLastName(user.getLastName());
-            originalUser.setEmail(user.getEmail());
-            originalUser.setLogin(user.getLogin());
-            originalUser.setPassword(user.getPassword());
-            originalUser.setRoles(user.getRoles());
-            userService.updateUser(originalUser);
-            return "redirect:/admin/";
-        }
-    }
-    @GetMapping("/add")
-    public String addUser(Model model, @AuthenticationPrincipal User user) {
-        model.addAttribute("user", new User());
-        model.addAttribute("roles", roleService.getAllRoles());
-        return "add_user";
-    }
-
-    @PostMapping("/save")
-    public String saveUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                           @RequestParam(value = "roles") List<String> selectResult) {
-        if (bindingResult.hasErrors()) {
-            return "add_user";
-        } else {
-            Set<Role> selectedRoles = new HashSet<>();
-            for (String roleName : selectResult) {
-                selectedRoles.add(roleService.getRole(roleName));
-            }
-            user.setRoles(selectedRoles);
-            userService.addUser(user);
-            return "redirect:/admin/";
-        }
     }
 
 }

@@ -11,8 +11,8 @@ import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.util.List;
+
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -20,8 +20,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    @Lazy
-    public UserServiceImpl(UserDao userDao, PasswordEncoder passwordEncoder) {
+
+    public UserServiceImpl(UserDao userDao,@Lazy PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
     }
@@ -49,8 +49,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public void updateUser(@Valid User user) {
-        if (!user.getPassword().equals(userDao.getUserById(user.getId()).getPassword())) {
+    public void updateUser(User user) {
+        if (!user.getPassword().equals(getUserById(user.getId()).getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         userDao.updateUser(user);

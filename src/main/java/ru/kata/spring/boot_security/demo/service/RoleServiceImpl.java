@@ -37,4 +37,5 @@ public class RoleServiceImpl implements RoleService {
     public void addRole(Role role) {
         roleDao.addRole(role);
     }
+
 }

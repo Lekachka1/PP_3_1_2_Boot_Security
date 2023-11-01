@@ -31,7 +31,6 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    @Transactional
     public void addRole(Role role) {
         entityManager.persist(role);
     }
