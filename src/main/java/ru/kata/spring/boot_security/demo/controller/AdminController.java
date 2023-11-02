@@ -18,6 +18,7 @@ import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -49,9 +50,8 @@ public class AdminController {
     }
 
     @PostMapping("/new")
-    public String create(@ModelAttribute("user") User user) {
-        System.out.println("Добавление");
-        userService.addUser(user);
+    public String create(@ModelAttribute("user") User user, @RequestParam("roles") List<Long> roleIds) {
+        userService.addUserWithRoles(user, roleIds);
         return "redirect:/admin/";
     }
 
@@ -62,8 +62,8 @@ public class AdminController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user) {
-        userService.updateUser(user);
+    public String update(@ModelAttribute("user") User user,@RequestParam("roles") List<Long> roleId) {
+        userService.updateUser(user,roleId);
         return "redirect:/admin/";
     }
 

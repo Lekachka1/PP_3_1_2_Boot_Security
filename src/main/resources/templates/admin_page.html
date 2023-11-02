@@ -43,7 +43,6 @@
         </div>
     </div>
 
-    <!--СОЗДАЕМ ПАНЕЛЬ-->
     <div class="container-fluid">
 
         <div class="col-10">
@@ -90,9 +89,8 @@
                                     <td th:text="${user.getAge()}">Age</td>
                                     <td th:text="${user.getEmail()}">Email</td>
                                     <td>
-                            <span th:each="role : ${user.getRoles()}">
-                                <span th:text="${role.toString()}"></span>
-                            </span>
+                                         <span th:each="role : ${user.getRoles()}"><span th:text="${role.toString()}"></span>
+                                         </span>
                                     </td>
                                     <td>
                                         <button class="btn btn-info btn-sm" type="button" data-bs-toggle="modal"
@@ -107,6 +105,12 @@
                                                           th:method="PATCH"
                                                           th:action="@{/admin/{id}(id=${user.getId()})}"
                                                           th:object="${user}">
+
+
+
+
+
+
 
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Edit user</h5>
@@ -190,6 +194,10 @@
                                             </div>
                                         </div>
                                     </td>
+
+
+
+
                                     <td>
                                         <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal"
                                                 th:data-bs-target="'#deleteModal' + ${user.getId()}">Delete
@@ -273,10 +281,15 @@
                                 </tbody>
                             </table>
                         </div>
+
+
+
+
                         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                             <h5 class="px-1 mt-3">Add new user</h5>
                             <div class="col-md-6 mx-auto" style="max-width: 300px">
-                                <form class="needs-validation" novalidate th:method="POST" th:action="@{/admin/new}" th:object="${new_user}">
+                                <form class="needs-validation" novalidate
+                                      th:method="POST" th:action="@{/admin/new}" th:object="${new_user}">
                                     <div class="col text-center">
                                         <label for="login" class="form-label fw-bold mb-1 mt-3">First Name</label>
                                         <input type="text" class="form-control" th:field="*{login}" id="login" required>
@@ -317,17 +330,13 @@
 
                                     <div class="form-group">
                                         <label for="roles">Roles</label>
-                                        <select multiple class="form-control" name="authorities" id="roles" required>
-                                            <option th:each="role : ${roles}"
-                                                    th:value="${role.id}"
-                                                    th:text="${role.toString()}">
-                                            </option>
+                                        <select multiple class="form-control" name="roles" id="roles" required>
+                                            <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.userRole}"></option>
                                         </select>
                                         <div class="invalid-feedback">
-                                            At least one role is required.
+                                            At least one role is required
                                         </div>
                                     </div>
-
 
                                     <button type="submit" class="btn btn-success mt-2">Add new user</button>
                                 </form>
@@ -336,6 +345,9 @@
 
                     </div>
                 </div>
+
+
+
 
                 <div class="tab-pane fade" id="v-pills-user" role="tabpanel"
                      aria-labelledby="v-pills-user-tab">
@@ -364,6 +376,7 @@
                                 <td th:text="|${user.getEmail()}|"/>
                                 <td th:text="|${user.getAge()}|"/>
                                 <td><a th:each="role : ${user.getRoles()}" th:text="|${role} |"/></td>
+
                             </tr>
                             </tbody>
                         </table>
