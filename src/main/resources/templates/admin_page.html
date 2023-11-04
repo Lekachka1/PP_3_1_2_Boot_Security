@@ -331,12 +331,14 @@
                                     <div class="form-group">
                                         <label for="roles">Roles</label>
                                         <select multiple class="form-control" name="roles" id="roles" required>
-                                            <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.userRole}"></option>
+                                            <option value="USER">USER</option>
+                                            <option value="ADMIN">ADMIN</option>
                                         </select>
                                         <div class="invalid-feedback">
                                             At least one role is required
                                         </div>
                                     </div>
+
 
                                     <button type="submit" class="btn btn-success mt-2">Add new user</button>
                                 </form>

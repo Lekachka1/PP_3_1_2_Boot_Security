@@ -13,6 +13,7 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,14 +23,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserDao userDao;
     private final PasswordEncoder passwordEncoder;
     private final RoleDao roleDao;
+    private final RoleService roleService;
 
     @Autowired
 
-    public UserServiceImpl(UserDao userDao,RoleDao roleDao,@Lazy PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserDao userDao, RoleDao roleDao, RoleService roleService, @Lazy PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
-        this.roleDao=roleDao;
+        this.roleDao = roleDao;
+        this.roleService = roleService;
     }
+
     @Override
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
@@ -47,10 +51,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public void addUserWithRoles(User user, List<Long> roleIds) {
+    public void add(User user, List<String> roles) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        List<Role> roles = roleIds.stream().map(roleDao::getRoleById).collect(Collectors.toList());
-        user.setRoles(roles);
+
+        List<Role> userRoles = new ArrayList<>();
+        if (roles != null) {
+            for (String role : roles) {
+                userRoles.add(roleService.getRole(role));
+            }
+        }
+        user.setRoles(userRoles);
+
+        userDao.addUser(user);
+    }
+
+
+
+    @Override
+    @Transactional
+    public void add(User user) {
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         userDao.addUser(user);
     }
 

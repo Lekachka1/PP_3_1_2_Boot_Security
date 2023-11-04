@@ -42,13 +42,13 @@ public class User implements UserDetails {
     }
 
 
-    public User( String lastName,Integer age, String email, String login, String password) {
+    public User( String lastName,Integer age, String email, String login, String password, List<Role> roles) {
         this.lastName = lastName;
         this.age=age;
         this.email = email;
         this.login = login;
         this.password = password;
-
+        this.roles=roles;
 
     }
 

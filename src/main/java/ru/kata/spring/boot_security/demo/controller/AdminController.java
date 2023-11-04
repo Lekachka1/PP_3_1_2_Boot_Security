@@ -33,12 +33,11 @@ public class AdminController {
     }
 
     @GetMapping("/")
-    public String showAllUsers(@AuthenticationPrincipal User user, Role role, Model model) {
+    public String showAllUsers(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("user", user);
         model.addAttribute("new_user", new User());
         model.addAttribute("roles", roleService.getAllRoles());
-        model.addAttribute("role", role);
         return "admin_page";
     }
 
@@ -50,10 +49,17 @@ public class AdminController {
     }
 
     @PostMapping("/new")
-    public String create(@ModelAttribute("user") User user, @RequestParam("roles") List<Long> roleIds) {
-        userService.addUserWithRoles(user, roleIds);
+    public String create(@ModelAttribute("user") @Valid User user,
+                         @RequestParam(required = false) List<String> roles,
+                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "error"; // Обработка ошибок валидации, если необходимо
+        }
+
+        userService.add(user, roles);
         return "redirect:/admin/";
     }
+
 
     @GetMapping("/{id}/edit")
     public String editUser(Model model, @PathVariable("id") long id) {
